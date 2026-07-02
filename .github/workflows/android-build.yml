@@ -38,6 +38,11 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
 
+      - name: Fix Duplicate Kotlin Configurations
+        run: |
+          cd android
+          echo "configurations.all { resolutionStrategy.eachDependency { DependencyResolveDetails details -> if (details.requested.group == 'org.jetbrains.kotlin') { details.useVersion '1.8.22' } } }" >> build.gradle
+
       - name: Build Android APK
         run: |
           cd android
