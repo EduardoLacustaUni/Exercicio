@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/local-notification
           npx cap init "Kegel Meditacao" "com.kegel.app" --web-dir=dist
 
       - name: Build Web Application
