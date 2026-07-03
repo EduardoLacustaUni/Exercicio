@@ -21,11 +21,14 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
-          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/local-notifications
+          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/local-notifications androidx.work:work-runtime:2.8.1
           npx cap init "Kegel Meditacao" "com.kegel.app" --web-dir=dist
 
       - name: Build Web Application
         run: npm run build
+
+      - name: Remove existing android directory if it exists
+        run: rm -rf android
 
       - name: Add Android Platform
         run: |
