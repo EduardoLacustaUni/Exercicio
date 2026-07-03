@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install
-          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/local-notifications androidx.work:work-runtime:2.8.1
+          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/local-notifications
           npx cap init "Kegel Meditacao" "com.kegel.app" --web-dir=dist
 
       - name: Build Web Application
@@ -46,7 +46,14 @@ jobs:
           cd android
           # Força as configurações de exclusão de duplicados no build.gradle do app
           echo "android { configurations.all { resolutionStrategy { exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8' }; resolutionStrategy { exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7' } } }" >> app/build.gradle
-
+      
+      - name: Add WorkManager dependency to build.gradle
+        run: |
+          cd android/app
+          if ! grep -q "androidx.work:work-runtime" build.gradle; then
+            sed -i "/dependencies {/a\    implementation 'androidx.work:work-runtime-ktx:2.8.1'" build.gradle
+          fi
+          
       - name: Build Android APK
         run: |
           cd android
